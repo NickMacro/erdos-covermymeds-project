@@ -1,5 +1,5 @@
-#Week 2 assignment
-#Goal:
+# Week 2 assignment
+# Goal:
 Exploratory data analysis and visualizations
 The CoverMyMeds dataset contains authorization interactions between patients prescribed pharmaceutical drugs and their health insurance payers who decide if those pharmaceutical drugs are covered.
 Through our intial analysis we have made several observations. 

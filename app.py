@@ -58,7 +58,7 @@ def render_introduction_page():
 
 def render_data_page():
     st.header("Data")
-    st.write("The data consists of ~1.3 million claims records with ~500k PAs filed.")
+    st.write("The data consists of ~1.3 million claims records with ~500k prior authorizations filed.")
 
 
 def render_model_page():
@@ -93,14 +93,14 @@ def render_prototype_page():
     st.write("The prescription is **" + chance[claim_pred] + "** (" + str(int(100 * claim_prob)) + "%) to be approved.")
 
     if not claim_pred:
-        st.write('The prescription is likely to require a PA. Fill out the following details to determine if the PA is likely to be accepted.')
+        st.write('The prescription is likely to require a prior authorization. Fill out the following details to determine if the prior authorization is likely to be accepted.')
         correct_diagnosis = st.checkbox('Drug is appropriate for the diagnosis.')
         tried_and_failed = st.checkbox('Tried and failed generic alternative.')
         contraindication = st.checkbox('Contraindication present for the drug.')
 
         pa_pred = pa_model.predict(np.array([[bin, drug, correct_diagnosis, tried_and_failed, contraindication]]))[0]
         pa_prob = pa_model.predict_proba(np.array([[bin, drug, correct_diagnosis, tried_and_failed, contraindication]]))[0, 1]
-        st.write("The PA is **" + chance[pa_pred] + "** (" + str(int(100 * pa_prob)) + "%) to be approved.")
+        st.write("The prior authorization is **" + chance[pa_pred] + "** (" + str(int(100 * pa_prob)) + "%) to be approved.")
 
 
 pages = {'Introduction': render_introduction_page,

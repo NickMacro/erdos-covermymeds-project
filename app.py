@@ -86,9 +86,11 @@ def render_prototype_page():
     drug = drug_le.transform(np.array([drug]))[0]
 
     claim_pred = claims_model.predict(np.array([[bin, drug]]))[0]
+    claim_prob = claims_model.predict_proba(np.array([[bin, drug]]))[0, 1]
+
     chance = {0: 'unlikely', 1: 'likely'}
 
-    st.write("The prescription is**", chance[claim_pred], "**to be approved.")
+    st.write("The prescription is **" + chance[claim_pred] + "** (" + str(int(100 * claim_prob)) + "%) to be approved.")
 
     if not claim_pred:
         st.write('The prescription is likely to require a PA. Fill out the following details to determine if the PA is likely to be accepted.')
@@ -97,7 +99,8 @@ def render_prototype_page():
         contraindication = st.checkbox('Contraindication present for the drug.')
 
         pa_pred = pa_model.predict(np.array([[bin, drug, correct_diagnosis, tried_and_failed, contraindication]]))[0]
-        st.write("The PA is**", chance[pa_pred], "**to be approved.")
+        pa_prob = pa_model.predict_proba(np.array([[bin, drug, correct_diagnosis, tried_and_failed, contraindication]]))[0, 1]
+        st.write("The PA is **" + chance[pa_pred] + "** (" + str(int(100 * pa_prob)) + "%) to be approved.")
 
 
 pages = {'Introduction': render_introduction_page,

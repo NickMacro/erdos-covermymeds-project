@@ -2,4 +2,4 @@ streamlit
 pandas
 joblib
 sklearn
-bokeh
+bokeh==2.2.2

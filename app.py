@@ -1,8 +1,6 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.tree import plot_tree
+from bokeh.plotting import figure
 from joblib import load
 
 CODE_TRANSLATION = {70: "the drug is not on the formulary and not covered by the plan",
@@ -93,21 +91,63 @@ def render_data_page():
         st.write(f"{pa_names[name]} {change} the PA Approval % by {abs(rate_delta)}%.")
 
 
+def bokeh_image_viewer(left, right, top, bottom, img_url):
+    f = figure(x_range=(left, right), 
+            y_range=(bottom, top),
+            toolbar_location='below',
+            tools='pan, wheel_zoom, zoom_in, zoom_out, reset, save')
+    f.xgrid.visible = False
+    f.ygrid.visible = False
+    f.axis.visible = False
+    f.image_url(url=[img_url], x=0, y=1, w=1, h=1)
+    return f
+
+
 def render_model_page():
+
+    img_urls = {'claim_approval': 'https://github.com/NickMacro/erdos-covermymeds-project/raw/main/models/saved-model-figures/claim-approval-tree.png',
+                'reject_code': 'https://github.com/NickMacro/erdos-covermymeds-project/raw/main/models/saved-model-figures/reject-code-tree.png',
+                'pa_approval': 'https://github.com/NickMacro/erdos-covermymeds-project/raw/main/models/saved-model-figures/pa-approval-tree.png'}
+
     st.header("Model")
     st.write("A decision tree model was found to be the best performing model for both:")
     st.write("1. Predicting if a claim will be approved by the payer.")
     st.write("2. Predicting if a prior authorization will be approved by the payer.")
 
+    interactive_plots = st.checkbox('Interactive Plots')
+
     st.subheader('Claim Approval Decision Tree')
-    st.image(r"./models/saved-model-figures/claim-approval-tree.png", use_column_width ='always')
+    if interactive_plots:
+        left = 0.5
+        right = left + 0.25
+        bottom = 0.5
+        top = bottom + 0.5
+        f = bokeh_image_viewer(left, right, top, bottom, img_urls['claim_approval'])
+        st.bokeh_chart(f, use_container_width=True)
+    else:
+        st.image(img_urls['claim_approval'], use_column_width ='always')
 
     st.subheader('Rejection Code Decision Tree')
-    st.image(r"./models/saved-model-figures/reject-code-tree.png", use_column_width ='always')
+    if interactive_plots:
+        left = 0.55
+        right = left + 0.25
+        bottom = 0.5
+        top = bottom + 0.5
+        f = bokeh_image_viewer(left, right, top, bottom, img_urls['reject_code'])
+        st.bokeh_chart(f, use_container_width=True)
+    else:
+        st.image(img_urls['reject_code'], use_column_width ='always')
     
     st.subheader('Prior Authorization Approval Decision Tree')
-    st.image(r"./models/saved-model-figures/pa-approval-tree.png", use_column_width ='always')
-    
+    if interactive_plots:
+        left = 0.51
+        right = left + 0.1
+        bottom = 0.2
+        top = bottom + 0.7
+        f = bokeh_image_viewer(left, right, top, bottom, img_urls['pa_approval'])
+        st.bokeh_chart(f, use_container_width=True)
+    else:
+        st.image(img_urls['pa_approval'], use_column_width ='always')
 
 def render_prototype_page():
     st.header("Prototype")

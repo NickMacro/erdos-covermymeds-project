@@ -1,8 +1,9 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from sklearn.tree import DecisionTreeClassifier
+import matplotlib.pyplot as plt
+from sklearn.tree import plot_tree
+from joblib import load
 
 CODE_TRANSLATION = {70: "the drug is not on the formulary and not covered by the plan",
                     75: "the drug is on the formulary but requires prior authorization",
@@ -19,33 +20,6 @@ def load_data(claims_path, pa_path, bridge_path):
 
     pa_combined_df = bridge_df.merge(claims_df, on='dim_claim_id').merge(pa_df, on='dim_pa_id').drop(columns=['dim_claim_id', 'dim_pa_id', 'dim_date_id'])
     return claims_df, pa_combined_df
-
-
-def train_claims_model(data_df):
-    claims_X = data_df[['bin', 'drug']].values
-    claims_y = data_df['pharmacy_claim_approved'].values
-
-    bin_le = LabelEncoder()
-    claims_X[:, 0] = bin_le.fit_transform(claims_X[:, 0].astype(int))
-
-    drug_le = LabelEncoder()
-    claims_X[:, 1] = drug_le.fit_transform(claims_X[:, 1])
-
-    claims_model = DecisionTreeClassifier(random_state=42)
-    claims_model.fit(claims_X, claims_y)
-    return claims_model, bin_le, drug_le
-
-
-def train_pa_model(data_df, bin_le, drug_le):
-    pa_X = data_df[['bin', 'drug', 'correct_diagnosis', 'tried_and_failed', 'contraindication']].values
-    pa_y = data_df['pa_approved'].values
-
-    pa_X[:, 0] = bin_le.fit_transform(pa_X[:, 0].astype(int))
-    pa_X[:, 1] = drug_le.fit_transform(pa_X[:, 1])
-
-    pa_model = DecisionTreeClassifier(random_state=42)
-    pa_model.fit(pa_X, pa_y)
-    return pa_model
 
 
 def render_sidebar(page_names):
@@ -119,17 +93,21 @@ def render_data_page():
         st.write(f"{pa_names[name]} {change} the PA Approval % by {abs(rate_delta)}%.")
 
 
-
-    
-
-
-
 def render_model_page():
     st.header("Model")
     st.write("A decision tree model was found to be the best performing model for both:")
     st.write("1. Predicting if a claim will be approved by the payer.")
     st.write("2. Predicting if a prior authorization will be approved by the payer.")
 
+    st.subheader('Claim Approval Decision Tree')
+    st.image(r"./models/saved-model-figures/claim-approval-tree.png", use_column_width ='always')
+
+    st.subheader('Rejection Code Decision Tree')
+    st.image(r"./models/saved-model-figures/reject-code-tree.png", use_column_width ='always')
+    
+    st.subheader('Prior Authorization Approval Decision Tree')
+    st.image(r"./models/saved-model-figures/pa-approval-tree.png", use_column_width ='always')
+    
 
 def render_prototype_page():
     st.header("Prototype")
@@ -141,30 +119,34 @@ def render_prototype_page():
 
     payer = int(st.selectbox('Enter payer ID.', sorted(claims_df['bin'].unique())))
     drug = st.selectbox('Enter drug name.', sorted(claims_df['drug'].unique()))
+    user_claims_X = pd.DataFrame({'bin': [payer], 'drug': [drug]})
 
-    claims_model, bin_le, drug_le = train_claims_model(claims_df)
-    pa_model = train_pa_model(pa_combined_df, bin_le, drug_le)
-
-    payer = bin_le.transform(np.array([payer]))[0]
-    drug = drug_le.transform(np.array([drug]))[0]
-
-    claim_pred = claims_model.predict(np.array([[payer, drug]]))[0]
-    claim_prob = claims_model.predict_proba(np.array([[payer, drug]]))[0, 1]
+    claims_pipe = load(r"./models/saved-models/decision-tree-claim-approval.joblib")
+    claim_pred = claims_pipe.predict(user_claims_X)[0]
+    claim_prob = claims_pipe.predict_proba(user_claims_X)[0, 1]
 
     chance = {0: 'unlikely', 1: 'likely'}
 
     st.write("The prescription is **" + chance[claim_pred] + "** (" + str(int(100 * claim_prob)) + "%) to be approved.")
 
     if not claim_pred:
-        st.write('The prescription is likely to require a prior authorization. Fill out the following details to determine if the prior authorization is likely to be accepted.')
-        correct_diagnosis = st.checkbox('Drug is appropriate for the diagnosis.')
-        tried_and_failed = st.checkbox('Tried and failed generic alternative.')
-        contraindication = st.checkbox('Contraindication present for the drug.')
+        reject_pipe = load(r"./models/saved-models/decision-tree-reject-code.joblib")
+        reject_pred = reject_pipe.predict(user_claims_X)[0]
 
-        pa_pred = pa_model.predict(np.array([[payer, drug, correct_diagnosis, tried_and_failed, contraindication]]))[0]
-        pa_prob = pa_model.predict_proba(np.array([[payer, drug, correct_diagnosis, tried_and_failed, contraindication]]))[0, 1]
+        st.write(f'The prescription is likely to require a prior authorization because {CODE_TRANSLATION[reject_pred]}. Fill out the following details to determine if the prior authorization is likely to be accepted.')
+        correct_diagnosis = int(st.checkbox('Drug is appropriate for the diagnosis.'))
+        tried_and_failed = int(st.checkbox('Tried and failed generic alternative.'))
+        contraindication = int(st.checkbox('Contraindication present for the drug.'))
+        user_pa_X = pd.DataFrame({'bin': [payer], 
+                                  'drug': [drug], 
+                                  'correct_diagnosis': [correct_diagnosis],
+                                  'tried_and_failed': [tried_and_failed],
+                                  'contraindication': [contraindication]})
+
+        pa_pipe = load(r"./models/saved-models/decision-tree-pa-approval.joblib")
+        pa_pred = pa_pipe.predict(user_pa_X)[0]
+        pa_prob = pa_pipe.predict_proba(user_pa_X)[0, 1]
         st.write("The prior authorization is **" + chance[pa_pred] + "** (" + str(int(100 * pa_prob)) + "%) to be approved.")
-
 
 pages = {'Introduction': render_introduction_page,
          'Data': render_data_page,

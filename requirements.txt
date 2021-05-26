@@ -1,5 +1,4 @@
-streamlit
-pandas
-joblib
-sklearn
-bokeh==2.2.2
+streamlit==0.82.*
+pandas==1.2.*
+scikit-learn==0.24.*
+bokeh==2.2.*

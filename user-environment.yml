@@ -12,3 +12,4 @@ dependencies:
   - matplotlib=3.4.*
   - seaborn=0.11.*
   - jupyterlab=3.0.*
+  - bokeh=2.2.*

@@ -30,7 +30,7 @@ def render_sidebar(page_names):
 
 def render_introduction_page():
     st.header("Introduction")
-    st.write("Patients can encounter difficulties with insurance coverage of specific drugs, depending on the insurance payer.")
+    st.write("Patients can encounter difficulties with insurance coverage of specific drugs, depending on the insurance payer. We are hoping to solve the following problems: 1. Can the approval of a PA be predicted using claim and PA data? If so, what factors tend to influence the approval of a PA? 2. Can a claim’s rejection be predicted using claim and PA data? If so, what factors tend to influence the rejection of a claim?")
 
 
 def render_data_page():

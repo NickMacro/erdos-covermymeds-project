@@ -35,7 +35,7 @@ def render_introduction_page():
 
 def render_data_page():
     st.header("Data")
-    st.write("The data consists of ~1.3 million claims records with ~500k prior authorizations filed.")
+    st.write("The data consists of four tables of data pertaining to patients’ access to drugs and prior authorizations (PA) due to rejection by the payer. There are ~1.3 million claims across three years from January 1, 2017 to December 31, 2019. The pharmacy claim-level data provided is for three drugs (A, B, C) and four payers (417380, 417614, 417740, 999001). There are ~556k rejected claims that require a PA. There are three rejection codes provided; '70' for a drug that is not covered by the plan and not on formulary, '75' for a drug on the formulary that does not have preferred status and requires a PA, and “76” for a drug that is covered but the plan limitations have been exceeded. The PA data contains four binary categories indicating whether the patient has the correct diagnosis (80% of PAs), has tried and failed a generic alternative (50% of PAs), if the patient has an associated contraindication (20% of PAs), and whether the PA was approved (73% of PAs).")
     claims_df, pa_combined_df = load_data("./data/processed/dim_claims_train.csv",
                                          "./data/processed/dim_pa_train.csv",
                                          "./data/processed/bridge_train.csv")

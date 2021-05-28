@@ -40,7 +40,8 @@ def render_data_page():
                                          "./data/processed/dim_pa_train.csv",
                                          "./data/processed/bridge_train.csv")
 
-    payer = int(st.selectbox('Enter payer ID.', sorted(claims_df['bin'].unique())))
+    payers = sorted(claims_df['bin'].unique())
+    payer = int(st.selectbox('Enter payer ID.', payers))
 
     claim_view = claims_df.loc[claims_df['bin'] == payer]
     drug_coverage = pd.DataFrame()
@@ -52,13 +53,14 @@ def render_data_page():
     st.table(drug_coverage)
 
     pa_view = pa_combined_df.loc[pa_combined_df['bin'] == payer]
-    for drug in pa_view['drug'].unique():
-        reject_code = pa_view.loc[pa_view['drug'] == drug]['reject_code'].unique()[0]
+    drugs = sorted(pa_view['drug'].unique())
+    for drug in drugs:
+        reject_code = pa_view.loc[pa_view['drug'] == drug]['reject_code'].iloc[0]
         drug_rejection = round(100 * (1 - claim_view.loc[claim_view['drug'] == drug]['pharmacy_claim_approved'].mean()))
         text = f"If rejected ({drug_rejection}%), drug {drug} is always rejected because {CODE_TRANSLATION[reject_code]} (code {reject_code})."
         st.write(text)
 
-    drug = st.selectbox('Enter drug name.', sorted(claims_df['drug'].unique()))
+    drug = st.selectbox('Enter drug name.', drugs))
 
     pa_names = {'contraindication': 'Contraindication',
                 'tried_and_failed': 'Failed Generic',
@@ -157,8 +159,10 @@ def render_prototype_page():
                                           "./data/processed/dim_pa_train.csv",
                                           "./data/processed/bridge_train.csv")
 
-    payer = int(st.selectbox('Enter payer ID.', sorted(claims_df['bin'].unique())))
-    drug = st.selectbox('Enter drug name.', sorted(claims_df['drug'].unique()))
+    payers = sorted(claims_df['bin'].unique())
+    drugs = sorted(claims_df['drug'].unique())
+    payer = int(st.selectbox('Enter payer ID.', payers))
+    drug = st.selectbox('Enter drug name.', drugs)
     user_claims_X = pd.DataFrame({'bin': [payer], 'drug': [drug]})
 
     claims_pipe = load(r"./models/saved-models/decision-tree-claim-approval.joblib")

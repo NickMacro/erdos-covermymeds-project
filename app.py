@@ -60,7 +60,7 @@ def render_data_page():
         text = f"If rejected ({drug_rejection}%), drug {drug} is always rejected because {CODE_TRANSLATION[reject_code]} (code {reject_code})."
         st.write(text)
 
-    drug = st.selectbox('Enter drug name.', drugs))
+    drug = st.selectbox('Enter drug name.', drugs)
 
     pa_names = {'contraindication': 'Contraindication',
                 'tried_and_failed': 'Failed Generic',

@@ -38,8 +38,7 @@ The models were evaluated by comparing recall, precision, and accuracy using 5-f
 - A 20% test split was used to evaluate model performance.
 
 ## We created an app! <a name="tool"></a>
-http://willow-erdos.herokuapp.com/ [backup](https://share.streamlit.io/nickmacro/erdos-covermymeds-project/main/app.py)
-The app serves as an explanation of the model, data used by the model, and a prototype of the model in action.
+http://willow-erdos.herokuapp.com/ ([backup deployed using Streamlit's sharing service](https://share.streamlit.io/nickmacro/erdos-covermymeds-project/main/app.py)) The app serves as an explanation of the model, data used by the model, and a prototype of the model in action.
 
 ## Using this Repository <a name="use"></a>
 This repository contains the data and code used to create the prototype, models, and figures used in this project. The contents are organized as follows:
@@ -59,3 +58,11 @@ This repository contains the data and code used to create the prototype, models,
 📄 requirements.txt : dependencies used by Heroku for the Streamlit app deployment
 📄 user-environment.yml : dependencies used in the notebooks
 ```
+
+The user environment can be installed using `conda`:
+`conda env create -f user-environment.yml`
+
+Streamlit can be installed using `pip`:
+`pip install streamlit`
+
+The hosted Streamlit applications are automatically updated when the GitHub repository is changed.

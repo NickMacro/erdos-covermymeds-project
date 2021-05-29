@@ -60,9 +60,11 @@ This repository contains the data and code used to create the prototype, models,
 ```
 
 The user environment can be installed using `conda`:
+
 `conda env create -f user-environment.yml`
 
 Streamlit can be installed using `pip`:
+
 `pip install streamlit`
 
 The hosted Streamlit applications are automatically updated when the GitHub repository is changed.

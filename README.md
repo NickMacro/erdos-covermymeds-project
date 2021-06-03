@@ -9,7 +9,7 @@ Helping patients access the prescription medication they need.
 - [Prototype](#tool)
 - [Results](#result)
 - [Using this Repository](#use)
-- [Authors] (#author)
+- [Authors](#author)
 
 
 ## Problem Description <a name="problem"></a>
@@ -110,5 +110,5 @@ Streamlit can be installed using `pip`:
 
 The hosted Streamlit applications are automatically updated when the GitHub repository is changed.
 
-## Authors
+## Authors <a name="author"></a>
 This project was created by [Nick Macro](https://www.linkedin.com/in/nickmacro/), [Sandrine Müller](https://www.linkedin.com/in/sandrinermuller/), and [Tomas Kasza](https://www.linkedin.com/in/tomas-kasza/).

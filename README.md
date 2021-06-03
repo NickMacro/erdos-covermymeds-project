@@ -9,6 +9,7 @@ Helping patients access the prescription medication they need.
 - [Prototype](#tool)
 - [Results](#result)
 - [Using this Repository](#use)
+- [Authors](#author)
 
 
 ## Problem Description <a name="problem"></a>
@@ -19,11 +20,11 @@ We are hoping to solve the following problems:
 
 
 ## Data Description <a name="data"></a>
-The data consists of four tables of data pertaining to patients’ access to drugs and prior authorizations (PA) due to rejection by the payer. There are ~1.3 million claims across three years from January 1, 2017 to December 31, 2019. 
+All of the data were provided by [CoverMyMeds](https://www.covermymeds.com/main/). The data consists of four tables of simulated data pertaining to patients’ access to drugs and prior authorizations (PA) due to rejection by the payer. There are ~1.3 million claims across three years from January 1, 2017 to December 31, 2019. 
 
-The pharmacy claim-level data provided is for three drugs (A, B, C) and four payers (417380, 417614, 417740, 999001). There are ~556k rejected claims that required a PA. There are three rejection codes provided; “70” for a drug that is not covered by the plan and not on formulary, “75" for a drug on the formulary that does not have preferred status and requires a PA, and “76” for a drug that is covered but the plan limitations have been exceeded. 
+The simulated pharmacy claim-level data provided is for three drugs (A, B, C) and four payers (417380, 417614, 417740, 999001). There are ~556k rejected claims that required a PA. There are three rejection codes provided; “70” for a drug that is not covered by the plan and not on formulary, “75" for a drug on the formulary that does not have preferred status and requires a PA, and “76” for a drug that is covered but the plan limitations have been exceeded. 
 
-The PA data contains four binary categories indicating whether the patient has the correct diagnosis (80% of PAs), has tried and failed a generic alternative (50% of PAs), if the patient has an associated contraindication (20% of PAs), and whether the PA was approved (73% of PAs).
+The simulated PA data contains four binary categories indicating whether the patient has the correct diagnosis (80% of PAs), has tried and failed a generic alternative (50% of PAs), if the patient has an associated contraindication (20% of PAs), and whether the PA was approved (73% of PAs).
 
 
 ## Stakeholders
@@ -108,3 +109,6 @@ Streamlit can be installed using `pip`:
 `pip install streamlit`
 
 The hosted Streamlit applications are automatically updated when the GitHub repository is changed.
+
+## Authors <a name="author"></a>
+This project was created by [Nick Macro](https://www.linkedin.com/in/nickmacro/), [Sandrine Müller](https://www.linkedin.com/in/sandrinermuller/), and [Tomas Kasza](https://www.linkedin.com/in/tomas-kasza/).

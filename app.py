@@ -53,9 +53,9 @@ def render_sidebar(page_names):
     # user selects the state using the radio element which will
     # determine the page that is rendered
     state = st.sidebar.radio('Table of Contents', page_names)
-    st.sidebar.write("This project was performed as part of the Erdős Institute's Spring 2021 Data Science Bootcamp.")
-    st.sidebar.write("The data were provided by CoverMyMeds.")
-    st.sidebar.write("Created by Nick Macro, Sandrine Müller, and Tomas Kasza.")
+    st.sidebar.write("This project was performed as part of [The Erdős Institute](https://www.erdosinstitute.org/)'s Spring 2021 Data Science Bootcamp.")
+    st.sidebar.write("The data were provided by [CoverMyMeds](https://www.covermymeds.com/main/).")
+    st.sidebar.write("Created by [Nick Macro](https://www.linkedin.com/in/nickmacro/), [Sandrine Müller](https://www.linkedin.com/in/sandrinermuller/), and [Tomas Kasza](https://www.linkedin.com/in/tomas-kasza/).")
     return state
 
 
@@ -66,7 +66,12 @@ def render_introduction_page():
     """
 
     st.header("Introduction")
-    st.write("Patients can encounter difficulties with insurance coverage of specific drugs, depending on the insurance payer. We are hoping to solve the following problems: 1. Can the approval of a PA be predicted using claim and PA data? If so, what factors tend to influence the approval of a PA? 2. Can a claim’s rejection be predicted using claim and PA data? If so, what factors tend to influence the rejection of a claim?")
+    st.write("Patients can encounter difficulties with insurance coverage of specific drugs, depending on the insurance payer. We are hoping to solve the following problems:")
+    st.write("""
+    1. Can a claim’s rejection be predicted using claim data? If so, what factors tend to influence the rejection of a claim?
+    2. Can the reason for rejection be predicted using the claim data?
+    3. Can the approval of a PA be predicted using claim and PA data? If so, what factors tend to influence the approval of a PA? 
+    """)
 
 
 def render_data_page():
@@ -76,7 +81,15 @@ def render_data_page():
     """
 
     st.header("Data")
-    st.write("The data consists of four tables of data pertaining to patients’ access to drugs and prior authorizations (PA) due to rejection by the payer. There are ~1.3 million claims across three years from January 1, 2017 to December 31, 2019. The pharmacy claim-level data provided is for three drugs (A, B, C) and four payers (417380, 417614, 417740, 999001). There are ~556k rejected claims that require a PA. There are three rejection codes provided; '70' for a drug that is not covered by the plan and not on formulary, '75' for a drug on the formulary that does not have preferred status and requires a PA, and '76' for a drug that is covered but the plan limitations have been exceeded. The PA data contains four binary categories indicating whether the patient has the correct diagnosis (80% of PAs), has tried and failed a generic alternative (50% of PAs), if the patient has an associated contraindication (20% of PAs), and whether the PA was approved (73% of PAs).")
+    st.write("The data consists of four tables of simulated data pertaining to patients’ access to drugs and prior authorizations (PA) due to rejection by the payer.")
+    
+    st.write("There are ~1.3 million claims across three years from January 1, 2017 to December 31, 2019. The simulated pharmacy claim-level data provided is for three drugs (A, B, C) and four payers (417380, 417614, 417740, 999001). ~556k claims are rejected and require a prior authorization (PA). There are three rejection codes provided:")
+    st.write("""
+- "70" for a drug that is not covered by the plan and not on formulary
+- "75" for a drug on the formulary that does not have preferred status and requires a PA
+- "76" for a drug that is covered but the plan limitations have been exceeded.
+""")
+    st.write("The PA data contains four binary categories indicating whether the drug was prescribed for the correct diagnosis (80% of PAs), has tried and failed a generic alternative (50% of PAs), if the patient has an associated contraindication (20% of PAs), and whether the PA was approved (73% of PAs).")
     claims_df, pa_combined_df = load_data("./data/processed/dim_claims_train.csv",
                                          "./data/processed/dim_pa_train.csv",
                                          "./data/processed/bridge_train.csv")
@@ -210,11 +223,12 @@ def render_model_page():
 
     st.header("Model")
     st.write("A decision tree model was found to be the best performing model for both:")
-    st.write("1. Predicting if a claim will be approved by the payer.")
-    st.write("2. Predicting if a prior authorization will be approved by the payer.")
+    st.write("""1. Predicting if a claim will be approved by the payer.
+2. Predicting the reject code for rejected claims.
+3. Predicting if a prior authorization will be approved by the payer.""")
 
     # returns false by default
-    interactive_plots = st.checkbox('Interactive Plots')
+    interactive_plots = st.checkbox('Trouble viewing trees? Use an interactive viewer.')
 
     # the three codeblocks have the same logic for each plot
     # interactive_plots determines the method of rendering the image
@@ -262,7 +276,7 @@ def render_prototype_page():
     """
 
     st.header("Prototype")
-    st.write("This model can be applied to perform predictions on future claims and prior authorizations.")
+    st.write("The decision tree models can be used to predict the approval of future claims and prior authorizations.")
 
     # the dataframe is only used to provide a list of the payers (bin)
     # and drugs (drug)

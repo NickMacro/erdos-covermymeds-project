@@ -53,7 +53,7 @@ Each payer has a unique set of drugs that it approves without prior authorizatio
 |417614|0%|0%|90%|
 |417740|90%|0%|0%|
 
-Details in [claims-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/5126ecdd9928a10eb70394cf14a67c160cd3f612/exploration/2021-05-14_nm_claims-exploration.ipynb).
+Details in the [claims-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/main/exploration/2021-05-14_nm_claims-exploration.ipynb).
 
 ### Reason for Rejection
 When a claim is denied, a rejection code is provided that indicates the reason for denial. The claims that are approved in the **Claim Approval** table, are rejected with a code **76**. The drugs that are not covered by the payer are rejected with either code **70** or code **75**. The table below displays the formulary for each payer.
@@ -69,17 +69,17 @@ When a claim is denied, a rejection code is provided that indicates the reason f
 - **75** on the formulary that does not have preferred status and requires a PA
 - **76** covered but the plan limitations have been exceeded. 
 
-Details in [pa-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/5126ecdd9928a10eb70394cf14a67c160cd3f612/exploration/2021-05-12_nm_pa-exploration.ipynb).
+Details in the [pa-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/main/exploration/2021-05-12_nm_pa-exploration.ipynb).
 
 ### Prior Authorization Approval
 Prior authorizations with rejection codes of 70 have the lowest approval rate (33% - 58%), rejection code 75 with the highest approval rate (83% - 99%), and rejection code 76 in the middle (64% - 96%).
 
 A correct diagnosis for the associated drug proved an overall 4% increase in PA approval rate. Trying an failing a generic alternative provides an overall 11% increase in PA approval rate. A contraindication decreases the overall approval rate by 25%. These changes in PA approval rate depend on drug-payer combination.
 
-Details in [pa-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/5126ecdd9928a10eb70394cf14a67c160cd3f612/exploration/2021-05-12_nm_pa-exploration.ipynb).
+Details in the [pa-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/main/exploration/2021-05-12_nm_pa-exploration.ipynb).
 
 ### Time Independence of Approval Rates
-The approval rate of both claims and prior authorizations do not change with time. Details in [claims-time-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/5126ecdd9928a10eb70394cf14a67c160cd3f612/exploration/2021-05-14_nm_claims-time-exploration.ipynb) and [pa-time-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/5126ecdd9928a10eb70394cf14a67c160cd3f612/exploration/2021-05-14_nm_pa-time-exploration.ipynb).
+The approval rate of both claims and prior authorizations do not change with time. Details in the [claims-time-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/main/exploration/2021-05-14_nm_claims-time-exploration.ipynb) and [pa-time-exploration notebook](https://github.com/NickMacro/erdos-covermymeds-project/blob/main/exploration/2021-05-14_nm_pa-time-exploration.ipynb).
 
 ## Using this Repository <a name="use"></a>
 This repository contains the data and code used to create the prototype, models, and figures used in this project. The contents are organized as follows:

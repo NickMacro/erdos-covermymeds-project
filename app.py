@@ -56,6 +56,7 @@ def render_sidebar(page_names):
     st.sidebar.write("This project was performed as part of [The Erdős Institute](https://www.erdosinstitute.org/)'s Spring 2021 Data Science Bootcamp.")
     st.sidebar.write("The data were provided by [CoverMyMeds](https://www.covermymeds.com/main/).")
     st.sidebar.write("Created by [Nick Macro](https://www.linkedin.com/in/nickmacro/), [Sandrine Müller](https://www.linkedin.com/in/sandrinermuller/), and [Tomas Kasza](https://www.linkedin.com/in/tomas-kasza/).")
+    st.sidebar.write("Additional details, notebooks, and source code can be found on the [GitHub repository](https://github.com/NickMacro/erdos-covermymeds-project).")
     return state
 
 
@@ -89,7 +90,7 @@ def render_data_page():
 - "75" for a drug on the formulary that does not have preferred status and requires a PA
 - "76" for a drug that is covered but the plan limitations have been exceeded.
 """)
-    st.write("The PA data contains four binary categories indicating whether the drug was prescribed for the correct diagnosis (80% of PAs), has tried and failed a generic alternative (50% of PAs), if the patient has an associated contraindication (20% of PAs), and whether the PA was approved (73% of PAs).")
+    st.write("The simulated PA data contains four binary categories indicating whether the drug was prescribed for the correct diagnosis (80% of PAs), has tried and failed a generic alternative (50% of PAs), if the patient has an associated contraindication (20% of PAs), and whether the PA was approved (73% of PAs).")
     claims_df, pa_combined_df = load_data("./data/processed/dim_claims_train.csv",
                                          "./data/processed/dim_pa_train.csv",
                                          "./data/processed/bridge_train.csv")
